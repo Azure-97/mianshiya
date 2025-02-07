@@ -1589,7 +1589,7 @@ MySQL 主从，主备或者主主架构介绍
 
 主备架构就是主机和备机。备机是不干活的，也就是不对外提供服务，只是默默地在同步主机的数据，然后等着某一天主机挂了之后，它取而代之！
 
-![img](./mysql.assets/mLaKJenH_c4c70d6c-8f49-4870-8ff4-d0423cdc6365_mianshiya.png)
+![img](assets/mysql/mLaKJenH_c4c70d6c-8f49-4870-8ff4-d0423cdc6365_mianshiya.png)
 
 至于切换的话主要有两种方式：
 
@@ -1600,7 +1600,7 @@ MySQL 主从，主备或者主主架构介绍
 
 主从架构就是主机和从机。从机和备机的区别在于，它是对外提供服务的，一般而言主从就是读写分离，写请求指派到主机，读请求指派到从机
 
-![img](./mysql.assets/Jx8dXIED_bb009e64-5942-42e4-9534-2e805ae0d523_mianshiya.png)
+![img](assets/mysql/Jx8dXIED_bb009e64-5942-42e4-9534-2e805ae0d523_mianshiya.png)
 
 ## 619. 如何在 MySQL 中实现读写分离？
 
@@ -1619,7 +1619,7 @@ MySQL 主从，主备或者主主架构介绍
 
 中间件一般而言是独立部署的系统，客户端与这个中间件的交互是通过 SQL 协议的。
 
-![img](./mysql.assets/640_mianshiya.png)
+![img](assets/mysql/640_mianshiya.png)
 
 所以在客户端看来连接的就是一个数据库，通过 SQL 协议交互也可以屏蔽多语言的差异。
 
@@ -1677,7 +1677,7 @@ MySQL 默认是异步复制，具体流程如下：
 - 由 SQL 线程从 relay log 重放事件，更新数据
 - 给主库返回响应。
 
-![img](./mysql.assets/650_mianshiya.png)
+![img](assets/mysql/650_mianshiya.png)
 
 用一句话概括一下：主库提交事务会写binlog，会由一个 dump 线程推送给从库，从库接受之后会有一个I/O线程将其写到 relay log 中，慢慢消化，由 SQL 线程来重放更新数据。
 
@@ -1740,7 +1740,7 @@ MySQL 5.7 之后搞了个半同步复制，有个参数可以选择“成功同�
 
 首先单机数据库所能承载的连接数、I/O及网络的吞吐等都是有限的，所以当并发量上来了之后，数据库就渐渐顶不住了。
 
-![img](./mysql.assets/660_mianshiya.png)
+![img](assets/mysql/660_mianshiya.png)
 
 再则，如果单表的数据量过大，查询的性能也会下降。因为数据越多 B+ 树就越高，树越高则查询 I/O 的次数就越多，那么性能也就越差。
 
@@ -1775,7 +1775,7 @@ MySQL 5.7 之后搞了个半同步复制，有个参数可以选择“成功同�
 
 因为做活动的时候并发可能会比较高，怕影响现有的核心业务，所以即使有关联，也会单独做拆分。
 
-![img](./mysql.assets/670_mianshiya.png)
+![img](assets/mysql/670_mianshiya.png)
 
 #### 分表图示
 
@@ -1786,7 +1786,7 @@ MySQL 5.7 之后搞了个半同步复制，有个参数可以选择“成功同�
 
 垂直分表，来看个图，很直观：
 
-![img](./mysql.assets/690_mianshiya.png)
+![img](assets/mysql/690_mianshiya.png)
 
 垂直分表就是把一些不常用的大字段剥离出去。
 
@@ -1796,7 +1796,7 @@ MySQL 5.7 之后搞了个半同步复制，有个参数可以选择“成功同�
 
 水平分表，则是因为一张表内的数据太多了，我们知道数据越多 B+ 树就越高，访问的性能就差，所以进行水平拆分。
 
-![img](./mysql.assets/700_mianshiya.png)
+![img](assets/mysql/700_mianshiya.png)
 
 其实不管这些，浅显的理解下，在一百个数据里面找一个数据快，还是在一万个数据里面找一个数据快？
 
@@ -1970,7 +1970,7 @@ MySQL 从缓存中读取所指的缓存，实际上包含了两个缓存：
 
 查询缓存和 buffer pool 大致的结构关系如下：
 
-![img](./mysql.assets/Xb5XY1as_image_mianshiya.png)
+![img](assets/mysql/Xb5XY1as_image_mianshiya.png)
 
 #### 数据页和索引页
 
@@ -2010,7 +2010,7 @@ InnoDB 存储引擎将表数据和索引以页为单位存储，每页通常为 
 
 看起来这个想法不错，但 innodb 的实现并不是朴素的 LRU，而是一种变型的 LRU。
 
-![img](./mysql.assets/MrNP4jqw_image_mianshiya.png)
+![img](assets/mysql/MrNP4jqw_image_mianshiya.png)
 
 从图中我们可以看出 buffer pool 分为了老年代（old sublist）和新生代（new sublist）。
 
@@ -2053,11 +2053,11 @@ MySQL 的 Doublewrite Buffer 是 InnoDB 存储引擎中的一个机制，用于�
 
 我们都知道 innodb 默认一页是 16K，而操作系统 Linux 内存页是 4K，那么一个 innodb 页对应 4 个系统页。
 
-![img](./mysql.assets/720_mianshiya.png)
+![img](assets/mysql/720_mianshiya.png)
 
 所以 innodb 的一页数据要刷盘等于需要写四个系统页，假设 innodb一页数据落盘的时候，**只写了一个系统页**就断电了，那 innodb 一页数据就坏了，这就完了，不好恢复不了。
 
-![img](./mysql.assets/730_mianshiya.png)
+![img](assets/mysql/730_mianshiya.png)
 
 即产生了部分页面写问题，**因为写 innodb 的一页无法保证原子性，所以引入了 Doublewrite Buffer**。
 
@@ -2103,7 +2103,7 @@ MySQL 中的 Log Buffer 是一个内存区域，用于暂时存储事务日志�
 
 我们来看一下官网的一张图：
 
-![img](./mysql.assets/710_mianshiya.png)
+![img](assets/mysql/710_mianshiya.png)
 
 我们看看 Log Buffer。从上面的图我们可以得知，它是 redo log 做缓冲用的。
 
@@ -3107,7 +3107,7 @@ SELECT @emp_name AS EmployeeName, @emp_salary AS EmployeeSalary;
 
 2）MyISAM 的索引也是 B+ 树，只是不像 InnoDB 那种叶子节点会存储完整的数据，MyISAM 的数据是独立于索引单独存储的，所以主键和非主键索引差别不大。
 
-![img](./mysql.assets/L8OYQmWD_image_mianshiya.png)
+![img](assets/mysql/L8OYQmWD_image_mianshiya.png)
 
 3）MyISAM 不支持崩溃后的安全恢复，而 InnoDB 有个 redolog 可以支持安全恢复。
 
@@ -3123,7 +3123,7 @@ SELECT @emp_name AS EmployeeName, @emp_salary AS EmployeeSalary;
 
 4）InnoDB 的主键索引称为聚簇索引，也就是数据和索引是放在一起的，这与 MyISAM 有所不同，并且它的辅助索引(非主键索引)只存储索引值与主键，因此当辅助索引不能覆盖查询的列时，需要通过找到的主键再去聚簇索引查询数据，这个过程称之为回表。
 
-![img](./mysql.assets/yMAM6R4d_image_mianshiya.png)
+![img](assets/mysql/yMAM6R4d_image_mianshiya.png)
 
 ## 扩展知识
 
@@ -3159,7 +3159,7 @@ MySQL 会根据成本来选择最终应用的索引，这里成本主要包括 *
 
 MySQL 是以页的形式来读取数据的，即使你只要一条数据，但是实际读取的还是整页的数据，因为根据空间局部性原理，这条数据被读取，那么距离它空间近的数据，也有很大概率会被读取，因此相邻的数据也应该被加载到内存中，所以 MySQL 默认读取一页。
 
-![img](./mysql.assets/hltRja4R_image_mianshiya.png)
+![img](assets/mysql/hltRja4R_image_mianshiya.png)
 
 在优化器内，读取一页的成本记为 1。
 
@@ -3330,7 +3330,7 @@ private boolean customerExists(Long customerId) {
 
 阿里巴巴 Java 开发手册写到了：
 
-![img](./mysql.assets/rX9duFQC_image_mianshiya.png)
+![img](assets/mysql/rX9duFQC_image_mianshiya.png)
 
 可以看到，主要是因为数据库的外键会产生级联更新从而导致性能问题。
 
@@ -3377,7 +3377,7 @@ MySQL 事务的二阶段提交是指在 MySQL 中，为了确保**redo log**（�
 - **准备阶段（Prepare Phase）**：在事务提交时，MySQL 的 InnoDB 引擎会先写入 **redo log**，并将其状态标记为**prepare**，表示事务已经准备提交但还未真正完成。此时的 redo log 是预提交状态，还未标记为完成提交。
 - **提交阶段（Commit Phase）**：当 redo log 的状态变为 prepare 后，MySQL Server 会写入 **binlog**（记录用户的 DML 操作）。binlog 写入成功后，MySQL 会通知 InnoDB，将 redo log 状态改为**commit**，完成整个事务的提交过程。
 
-![img](./mysql.assets/XBIKG2jZ_image_mianshiya.png)
+![img](assets/mysql/XBIKG2jZ_image_mianshiya.png)
 
 ### 扩展知识
 
@@ -3479,7 +3479,7 @@ MySQL 事务的二阶段提交是指在 MySQL 中，为了确保**redo log**（�
 
 由此，三层 B+ 树大致能存储的数据总量为：`1170 * 1170 * 16 = 21902400`，一棵三层的 B+ 树在 MySQL 中可以存储大约 **2000 万条记录**。
 
-![img](./mysql.assets/axH42XnM_image_mianshiya.png)
+![img](assets/mysql/axH42XnM_image_mianshiya.png)
 
 **这里要注意这个只是估算值，具体数量会因实际的数据大小、页大小等因素略有不同。**
 

@@ -353,7 +353,7 @@ with (this) {
 
 ```
 
-![image-20250102170128855](Vue.assets/image-20250102170128855.png)
+![image-20250102170128855](assets/Vue/image-20250102170128855.png)
 
 可以看到，和分析的是一致的。
 
@@ -395,9 +395,9 @@ v-slot（简写为 #插槽名）
 
 ```
 
-![image-20250102170420775](Vue.assets/image-20250102170420775.png)
+![image-20250102170420775](assets/Vue/image-20250102170420775.png)
 
-![image-20250102170433427](Vue.assets/image-20250102170433427.png)
+![image-20250102170433427](assets/Vue/image-20250102170433427.png)
 
 可以看到只有条件为 true 的 template 中的元素被展示到了 DOM 上。而不带任何条件的 template 则被解析成了 HTML 原生的 template 元素。
 
@@ -536,7 +536,7 @@ MVVM（Model-View-ViewModel）、MVC（Model-View-Controller）和 MVP（Model-V
 下面提供一个示例，为 Vue Router 配置一个 404 页面：
 
 ```javascript
-import Vue from 'vue';
+import Vue from 'src/Vue';
 import VueRouter from 'vue-router';
 import Home from '@/components/Home.vue';
 import NotFound from '@/components/NotFound.vue'; // 这是你的 404 页面组件
@@ -544,19 +544,19 @@ import NotFound from '@/components/NotFound.vue'; // 这是你的 404 页面组�
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: '/',
-    component: Home
-  },
-  {
-    path: '*', // 通配符，一定要放在最后
-    component: NotFound
-  }
+    {
+        path: '/',
+        component: Home
+    },
+    {
+        path: '*', // 通配符，一定要放在最后
+        component: NotFound
+    }
 ];
 
 const router = new VueRouter({
-  mode: 'history', // 使用 HTML5 History 模式
-  routes
+    mode: 'history', // 使用 HTML5 History 模式
+    routes
 });
 
 export default router;
